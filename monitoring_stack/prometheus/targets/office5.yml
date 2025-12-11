@@ -1,0 +1,80 @@
+# Офис 5: Владивосток
+- labels:
+    office: "office5"
+    location: "Владивосток"
+    city: "vvo"
+    country: "RU"
+    timezone: "Asia/Vladivostok"
+    priority: "medium"
+    department: "логистика"
+  targets:
+    # Критичная сетевая инфраструктура
+    - "gw5-core.vvo.company.local:9100"
+    - "gw5-edge.vvo.company.local:9100"
+    - "sw5-core1.vvo.company.local"
+    - "sw5-core2.vvo.company.local"
+    
+    # Серверы логистики
+    - "wms5.vvo.company.local:9100"
+    - "tms5.vvo.company.local:9100"
+    - "scada5.vvo.company.local:9100"
+    
+    # Промышленное оборудование
+    - "plc5-1.vvo.company.local"
+    - "plc5-2.vvo.company.local"
+    - "rfid5-reader.vvo.company.local"
+    
+    # Системы видеонаблюдения
+    - "cctv5-nvr.vvo.company.local:9100"
+    - "cctv5-cam1.vvo.company.local"
+    - "cctv5-cam2.vvo.company.local"
+
+# Международные каналы связи (Азия)
+- labels:
+    office: "office5"
+    link_type: "international"
+    provider: "telia"
+    destination: "singapore"
+    bandwidth: "100mbps"
+    latency_budget: "150ms"
+  targets:
+    - "intl-gw5.vvo.company.local"
+    
+- labels:
+    office: "office5"
+    link_type: "satellite"
+    provider: "inmarsat"
+    backup: "true"
+    technology: "vsat"
+  targets:
+    - "sat-backup5.vvo.company.local"
+    
+- labels:
+    office: "office5"
+    link_type: "metro-ethernet"
+    provider: "rostelecom"
+    circuit_id: "RTK-VVO-4456"
+  targets:
+    - "metro-gw5.vvo.company.local"
+
+# IoT и промышленные системы
+- labels:
+    office: "office5"
+    service: "mqtt"
+    protocol: "mqtt-3.1.1"
+  targets:
+    - "mqtt-broker5.vvo.company.local:1883"
+    
+- labels:
+    office: "office5"
+    service: "opcua"
+    industrial: "true"
+  targets:
+    - "opcua-server5.vvo.company.local:4840"
+    
+- labels:
+    office: "office5"
+    service: "modbus"
+    protocol: "tcp"
+  targets:
+    - "modbus-gateway5.vvo.company.local:502"

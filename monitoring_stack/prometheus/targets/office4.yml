@@ -1,0 +1,69 @@
+# Офис 4: Новосибирск
+- labels:
+    office: "office4"
+    location: "Новосибирск"
+    city: "nsk"
+    country: "RU"
+    timezone: "Asia/Novosibirsk"
+    priority: "low"
+    department: "поддержка"
+  targets:
+    # Основная инфраструктура
+    - "gw4.nsk.company.local:9100"
+    - "sw4-dist.nsk.company.local"
+    - "sw4-access.nsk.company.local"
+    
+    # Серверы поддержки
+    - "helpdesk4.nsk.company.local:9100"
+    - "wiki4.nsk.company.local:9100"
+    - "mon4.nsk.company.local:9100"
+    
+    # Оборудование ЦОД
+    - "ups4.nsk.company.local"
+    - "pdu4-1.nsk.company.local"
+    - "pdu4-2.nsk.company.local"
+    
+    # Резервные системы
+    - "backup4.nsk.company.local:9100"
+    - "dr-site4.nsk.company.local:9100"
+
+# Каналы связи с акцентом на отказоустойчивость
+- labels:
+    office: "office4"
+    link_type: "sd-wan"
+    provider: "cisco"
+    bandwidth: "300mbps"
+    qos: "gold"
+  targets:
+    - "sdwan-edge4.nsk.company.local"
+    
+- labels:
+    office: "office4"
+    link_type: "backup"
+    provider: "transtelecom"
+    technology: "lte"
+  targets:
+    - "lte-backup4.nsk.company.local"
+    
+- labels:
+    office: "office4"
+    link_type: "vpn"
+    tunnel: "office4-cloud"
+    purpose: "aws-direct-connect"
+  targets:
+    - "vpn-cloud4.nsk.company.local"
+
+# Сервисы поддержки
+- labels:
+    office: "office4"
+    service: "zabbix"
+    role: "monitoring"
+  targets:
+    - "zabbix4.nsk.company.local:10050"
+    
+- labels:
+    office: "office4"
+    service: "elk"
+    role: "logging"
+  targets:
+    - "elk4.nsk.company.local:9600"

@@ -1,34 +1,23 @@
-global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
-
-rule_files:
-  - "alert-rules.yml"
-
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets: ['alertmanager:9093']
-
 scrape_configs:
-  - job_name: 'prometheus'
-    static_configs:
-      - targets: ['localhost:9090']
+  # ... существующие конфигурации ...
 
-  - job_name: 'node'
+  # Мониторинг всех офисов
+  - job_name: 'offices-node'
     file_sd_configs:
       - files:
         - 'targets/office*.yml'
-    metrics_path: /metrics
     relabel_configs:
       - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: node-exporter:9100
+        regex: '(.*):9100'
+        replacement: '${1}:9100'
+        target_label: __address__
+      - source_labels: [office]
+        target_label: office
+      - source_labels: [location]
+        target_label: location
 
-  - job_name: 'blackbox'
+  # Ping мониторинг каналов связи
+  - job_name: 'network-ping'
     metrics_path: /probe
     params:
       module: [icmp]
@@ -42,5 +31,21 @@ scrape_configs:
         replacement: blackbox-exporter:9115
       - source_labels: [__param_target]
         target_label: instance
-      - target_label: job
-        replacement: 'network-ping'
+      - source_labels: [office, direction, purpose]
+        target_label: job
+
+  # Blackbox мониторинг сервисов
+  - job_name: 'blackbox-services'
+    metrics_path: /probe
+    file_sd_configs:
+      - files:
+        - 'targets/blackbox-targets.yml'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [module]
+        target_label: __param_module
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+      - source_labels: [__param_target]
+        target_label: instance

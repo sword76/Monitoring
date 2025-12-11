@@ -1,0 +1,74 @@
+# Офис 2: Санкт-Петербург
+- labels:
+    office: "office2"
+    location: "Санкт-Петербург"
+    city: "spb"
+    country: "RU"
+    timezone: "Europe/Moscow"
+    priority: "high"
+    department: "разработка"
+  targets:
+    # Основные маршрутизаторы
+    - "gw2-1.spb.company.local:9100"
+    - "gw2-2.spb.company.local:9100"
+    
+    # Коммутаторы доступа
+    - "sw2-1.spb.company.local"
+    - "sw2-2.spb.company.local"
+    - "sw2-3.spb.company.local"
+    
+    # Серверы
+    - "srv2-1.spb.company.local:9100"
+    - "srv2-2.spb.company.local:9100"
+    - "srv2-db.spb.company.local:9100"
+    
+    # Точки доступа Wi-Fi
+    - "ap2-1.spb.company.local"
+    - "ap2-2.spb.company.local"
+    - "ap2-3.spb.company.local"
+    
+    # VoIP оборудование
+    - "pbx2.spb.company.local"
+    - "voip-gw2.spb.company.local"
+
+# Внешние каналы связи офиса 2
+- labels:
+    office: "office2"
+    link_type: "internet"
+    provider: "rostelecom"
+    bandwidth: "1gbps"
+    vlan: "100"
+  targets:
+    - "isp1-gw.spb.company.local"
+    
+- labels:
+    office: "office2"
+    link_type: "mpls"
+    provider: "transit"
+    bandwidth: "500mbps"
+    vlan: "200"
+  targets:
+    - "mpls-gw2.spb.company.local"
+    
+- labels:
+    office: "office2"
+    link_type: "vpn"
+    tunnel: "office2-hq"
+    encrypted: "true"
+  targets:
+    - "vpn-gw2.spb.company.local"
+
+# Мониторинг критических сервисов офиса 2
+- labels:
+    office: "office2"
+    service: "gitlab"
+    environment: "production"
+  targets:
+    - "gitlab2.spb.company.local:9090"
+    
+- labels:
+    office: "office2"
+    service: "ci-cd"
+    environment: "staging"
+  targets:
+    - "jenkins2.spb.company.local:8080"

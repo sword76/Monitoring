@@ -1,0 +1,62 @@
+# Офис 3: Екатеринбург
+- labels:
+    office: "office3"
+    location: "Екатеринбург"
+    city: "ekb"
+    country: "RU"
+    timezone: "Asia/Yekaterinburg"
+    priority: "medium"
+    department: "продажи"
+  targets:
+    # Сетевое оборудование
+    - "gw3-1.ekb.company.local:9100"
+    - "sw3-core.ekb.company.local"
+    - "sw3-access1.ekb.company.local"
+    - "sw3-access2.ekb.company.local"
+    
+    # Инфраструктурные серверы
+    - "dc3-1.ekb.company.local:9100"
+    - "dc3-2.ekb.company.local:9100"
+    - "fs3-nas.ekb.company.local:9100"
+    
+    # Коммуникационное оборудование
+    - "conf-system3.ekb.company.local"
+    - "video-conf3.ekb.company.local"
+    
+    # Системы безопасности
+    - "nvr3.ekb.company.local"
+    - "acs3.ekb.company.local"
+
+# Каналы связи офиса 3
+- labels:
+    office: "office3"
+    link_type: "internet"
+    provider: "mts"
+    bandwidth: "500mbps"
+    backup: "true"
+  targets:
+    - "isp3-primary.ekb.company.local"
+    - "isp3-backup.ekb.company.local"
+    
+- labels:
+    office: "office3"
+    link_type: "ip-telephony"
+    provider: "mango-office"
+    direction: "inbound"
+  targets:
+    - "sip-proxy3.ekb.company.local"
+
+# Специфичные метрики для офиса продаж
+- labels:
+    office: "office3"
+    service: "crm"
+    application: "bitrix24"
+  targets:
+    - "crm3.ekb.company.local:9182"
+    
+- labels:
+    office: "office3"
+    service: "telephony"
+    application: "asterisk"
+  targets:
+    - "pbx3.ekb.company.local:5038"

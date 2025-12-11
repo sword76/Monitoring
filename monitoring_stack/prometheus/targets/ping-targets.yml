@@ -1,0 +1,100 @@
+# Критические хосты для мониторинга доступности через ping
+# Между офисами
+- labels:
+    monitor_type: "ping"
+    direction: "office1->office2"
+    source: "office1"
+    target: "office2"
+  targets:
+    - "gw2-1.spb.company.local"
+    - "8.8.8.8"  # Google DNS для проверки интернета
+    - "1.1.1.1"  # Cloudflare DNS
+    
+- labels:
+    monitor_type: "ping"
+    direction: "office1->office3"
+    source: "office1"
+    target: "office3"
+  targets:
+    - "gw3-1.ekb.company.local"
+    
+- labels:
+    monitor_type: "ping"
+    direction: "office1->office4"
+    source: "office1"
+    target: "office4"
+  targets:
+    - "gw4.nsk.company.local"
+    
+- labels:
+    monitor_type: "ping"
+    direction: "office1->office5"
+    source: "office1"
+    target: "office5"
+  targets:
+    - "gw5-core.vvo.company.local"
+
+# Внешние ресурсы для каждого офиса
+- labels:
+    monitor_type: "ping"
+    office: "office1"
+    purpose: "internet_check"
+  targets:
+    - "google.com"
+    - "yandex.ru"
+    - "mail.ru"
+    
+- labels:
+    monitor_type: "ping"
+    office: "office2"
+    purpose: "internet_check"
+  targets:
+    - "google.com"
+    - "vk.com"
+    
+- labels:
+    monitor_type: "ping"
+    office: "office3"
+    purpose: "internet_check"
+  targets:
+    - "google.com"
+    - "sberbank.ru"
+    
+- labels:
+    monitor_type: "ping"
+    office: "office4"
+    purpose: "internet_check"
+  targets:
+    - "google.com"
+    - "tinkoff.ru"
+    
+- labels:
+    monitor_type: "ping"
+    office: "office5"
+    purpose: "internet_check"
+  targets:
+    - "google.com"
+    - "alibaba.com"
+    - "amazon.com"
+
+# Критические сервисы компании
+- labels:
+    monitor_type: "ping"
+    service: "corporate_dns"
+  targets:
+    - "ns1.company.local"
+    - "ns2.company.local"
+    
+- labels:
+    monitor_type: "ping"
+    service: "directory_services"
+  targets:
+    - "ad1.company.local"
+    - "ad2.company.local"
+    
+- labels:
+    monitor_type: "ping"
+    service: "time_sync"
+  targets:
+    - "ntp1.company.local"
+    - "ntp2.company.local"

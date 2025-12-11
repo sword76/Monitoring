@@ -1,0 +1,8 @@
+- labels:
+    office: "office1"
+    location: "Москва"
+    type: "node"
+  targets:
+    - "office1-router.company.local"
+    - "office1-switch1.company.local"
+    - "office1-server1.company.local"

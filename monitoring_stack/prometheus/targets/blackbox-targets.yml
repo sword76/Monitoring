@@ -1,0 +1,68 @@
+# HTTP/HTTPS мониторинг веб-сервисов
+- labels:
+    module: "http_2xx"
+    office: "office1"
+    service: "intranet"
+  targets:
+    - "https://portal.company.local"
+    - "https://wiki.company.local"
+    
+- labels:
+    module: "http_2xx"
+    office: "office2"
+    service: "gitlab"
+  targets:
+    - "https://gitlab2.spb.company.local"
+    
+- labels:
+    module: "http_2xx"
+    office: "office3"
+    service: "crm"
+  targets:
+    - "https://crm3.ekb.company.local"
+
+# TCP порты критических сервисов
+- labels:
+    module: "tcp_connect"
+    office: "office1"
+    service: "database"
+  targets:
+    - "db1.company.local:5432"  # PostgreSQL
+    - "db2.company.local:3306"  # MySQL
+    
+- labels:
+    module: "tcp_connect"
+    office: "office4"
+    service: "backup"
+  targets:
+    - "backup4.nsk.company.local:873"  # rsync
+    - "backup4.nsk.company.local:22"   # SSH
+
+# SSL/TLS мониторинг
+- labels:
+    module: "tls_connect"
+    office: "all"
+    check: "ssl_expiry"
+  targets:
+    - "portal.company.local:443"
+    - "mail.company.local:993"
+    - "vpn.company.local:443"
+
+# DNS мониторинг
+- labels:
+    module: "dns_resolution"
+    office: "all"
+    query: "internal"
+  targets:
+    - "ns1.company.local"
+  params:
+    query_name: ["portal.company.local", "mail.company.local"]
+    
+- labels:
+    module: "dns_resolution"
+    office: "all"
+    query: "external"
+  targets:
+    - "8.8.8.8"
+  params:
+    query_name: ["google.com", "yandex.ru"]

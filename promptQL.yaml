@@ -1,0 +1,30 @@
+version: "prometheus/v1"
+service: "Remote Office 1 WAN"
+labels:
+  owner: "Telecom"
+  repo: "TechDept/Telecom"
+  tier: "2"
+slos:
+  # SLO (99.9%) всех запросов (одна ошибка на 1000 запросов).
+  - name: "requests-availability"
+    objective: 99.9
+    description: "Общий уровень удовлетворенности клиентов (SLO) основан на доступности ответов на запросы."
+    sli:
+      events:
+        error_query: sum(rate(http_request_duration_seconds_count{job="myservice",code=~"(5..|429)"}[{{.window}}]))
+        total_query: sum(rate(http_request_duration_seconds_count{job="myservice"}[{{.window}}]))
+    alerting:
+      name: MyServiceHighErrorRate
+      labels:
+        category: "Evaluability"
+      annotations:
+        # Перезаписать сводку оповещений Sloth SLO по умолчанию для заявок и оповещений на страницах.
+        summary: "Высокий процент ошибок при ответах на запросы 'Remote Office 1 WAN'."
+      page_alert:
+        labels:
+          severity: pageteam
+          routing_key: myteam
+      ticket_alert:
+        labels:
+          severity: "slack"
+          slack_channel: "#alerts-myteam"
